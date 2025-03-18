@@ -1,54 +1,45 @@
-# React + TypeScript + Vite
+JobHuntly - Job Portal App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Project Overview
 
-Currently, two official plugins are available:
+JobHuntly is a job portal application built using React. It allows job seekers to search for jobs, apply for positions, and manage applications, while employers can post job listings, manage applicants, and track job postings. The app provides an intuitive user experience with features like filtering, bookmarking, and real-time updates.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Features
+For Job Seekers:
 
-## Expanding the ESLint configuration
+✅ Browse and search for job listings.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+✅ Apply for jobs directly from the platform.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+✅ Save/bookmark jobs for later.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+✅ Manage Profile
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+For Employers:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+✅ Post job openings and manage listings.
+
+✅ View applicant details and manage applications.
+
+✅ Edit or remove job postings.
+
+
+General Features:
+
+✅Responsive design for mobile and desktop.
+
+✅State management using React Redux.
+
+✅API integration using Axios.
+
+✅User authentication and profile management.
+
+Technologies Used
+
+✅Frontend: React, React Router, Redux
+
+✅API Integration: Axios
+
+✅UI Styling: Vanila CSS
+
+✅State Management: Redux Toolkit
