@@ -9,41 +9,46 @@ import { setUserType } from "../../services/slices/authSlice"
 
 const Auth = () => {
     const dispatch = useAppDispatch()
-    const typeOfUser = useAppSelector((state)=>state.authReducer.userType)
-    const isNewUser = useAppSelector((state)=>state.authReducer.isNewUser)
-  return (
-    <div className="auth-container">
-        <div className="auth-left-sec">
-            <img src={authImg} alt="" />
-            <div className="auth-left-hired">
-                <img src={group307} alt="" />
-                <h4>100K+</h4>
-                <p>People got hired</p>
+    const typeOfUser = useAppSelector((state) => state.authReducer.userType)
+    const isNewUser = useAppSelector((state) => state.authReducer.isNewUser)
+    return (
+        <div className="auth-container">
+            <div className="auth-left-sec">
+                <img className="auth-left-sec-man" src={authImg} alt="" />
+                <div className="auth-left-hired">
+                    <img className="auth-img" src={group307} alt="" />
+                    <h4>100K+</h4>
+                    <p>People got hired</p>
+                </div>
+                <img src={Logo2} alt="" className="auth-logo" />
             </div>
-            <img src={Logo2} alt="" className="auth-logo" />
+            <div className="auth-right-sec">
+                <div className="auth-user-buttons">
+                    <button onClick={() => dispatch(setUserType("job seeker"))} className={`auth-user-btn ${typeOfUser === "job seeker" && "active"}`}>
+                        Job Seeker
+                    </button>
+                    <button onClick={() => dispatch(setUserType("employer"))} className={`auth-user-btn ${typeOfUser === "employer" && "active"}`}>
+                        Employer
+                    </button>
+                </div>
+                <h1>{
+                    isNewUser?
+                        "Welcome Back, Dude"
+                        :
+                        "Get More Opportunities"
+                }</h1>
+                <p>{isNewUser?"SignIn":"SignUp"} with Email</p>
+                <div className="auth-form-container">
+                    {
+                        isNewUser ?
+                            <Register />
+                            :
+                            <Login />
+                    }
+                </div>
+            </div>
         </div>
-        <div className="auth-right-sec">
-            <div className="auth-user-buttons">
-                <button onClick={()=>dispatch(setUserType("job seeker"))} className={`auth-user-btn ${typeOfUser==="job seeker"&&"active"}`}>
-                    Job Seeker
-                </button>
-                <button onClick={()=>dispatch(setUserType("employer"))} className={`auth-user-btn ${typeOfUser==="employer"&&"active"}`}>
-                    Employer
-                </button>
-            </div>
-            <h1>Welcome Back, Dude</h1>
-            <p>SignUp with Email</p>
-            <div className="auth-form-container">
-                {
-                    !isNewUser?
-                    <Register/>
-                    :
-                    <Login/>
-                }
-            </div>
-        </div>
-    </div>
-  )
+    )
 }
 
 export default Auth

@@ -2,19 +2,37 @@ import "./register.css"
 import { useForm,isEmail, isNotEmpty } from "@mantine/form";
 import { TextInput,PasswordInput,Button } from "@mantine/core"
 import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks";
-import {  setIsNewUser,setUserData } from "../../services/slices/authSlice.js";
+import {  postNewUserToDB, registerResponse, setIsNewUser,setUserData } from "../../services/slices/authSlice.js";
 import { userType } from "../../utils/interfaces.js";
 
 
 const Register = () => {
     const userType:userType = useAppSelector(state=>state.authReducer.userType)
+    const {isPending} = useAppSelector(state=>state.authReducer.registerResponse)
     const dispatch = useAppDispatch()
 
 
-
-    const handleSubmit = (valuesFromForm:{username:string,email:string,password:string})=>{
+// function to post to db if no existing user
+    const handleSubmit = async (valuesFromForm:{username:string,email:string,password:string})=>{
         const userData = {...valuesFromForm,userType}
         dispatch(setUserData(userData))
+        if (userData.email) {
+           try{
+            const result = await dispatch(registerResponse(userData.email))
+            if(result.payload.length == 0){
+                const postResult =await dispatch(postNewUserToDB(userData))
+                console.log(postResult);
+                
+                dispatch(setIsNewUser(false))
+            }else{
+                alert("userAlready exists")
+                
+            }
+           }catch(err){
+            console.log(err);
+            
+           }
+        }
     }
 
     const form = useForm({
@@ -28,14 +46,14 @@ const Register = () => {
         });
     return (
         <form className="register-form" onSubmit={form.onSubmit((value) => handleSubmit(value))}>
-            <TextInput label="Username" w={"100%"} radius={"md"} size="xl" {...form.getInputProps('username')} mt="md" placeholder="Username" />
-            <TextInput label="Email" w={"100%"} radius={"md"} size="xl" {...form.getInputProps('email')} mt="md" placeholder="Email" />
-            <PasswordInput label="Password" w={"100%"} radius={"md"} className="inputs" size="xl" {...form.getInputProps('password')} mt={"md"} placeholder="Password" />
+            <TextInput label="Username" w={"100%"} radius={"md"} size="lg" {...form.getInputProps('username')} mt="md" placeholder="Username" />
+            <TextInput label="Email" w={"100%"} radius={"md"} size="lg" {...form.getInputProps('email')} mt="md" placeholder="Email" />
+            <PasswordInput label="Password" w={"100%"} radius={"md"} className="inputs" size="lg" {...form.getInputProps('password')} mt={"md"} placeholder="Password" />
 
-            <Button radius={"lg"} type="submit" mt="md" w={200} h={50}>
+            <Button loading={isPending?true:false} loaderProps={{ type: 'dots' }} radius={"lg"} type="submit" mt="md" w={200} h={50}>
                 Register
             </Button>
-            <p>Already have an account? Please <a onClick={()=>dispatch(setIsNewUser(true))}>Login</a></p>
+            <p>Already have an account? Please <a onClick={()=>dispatch(setIsNewUser(false))}>Login</a></p>
         </form>
     )
 }

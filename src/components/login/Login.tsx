@@ -1,11 +1,14 @@
 import { useForm,isEmail } from "@mantine/form";
 import "./login.css"
 import { TextInput,PasswordInput,Button } from "@mantine/core"
-import { useAppDispatch } from "../../redux/ReduxHooks";
-import {setIsNewUser} from "../../services/slices/authSlice.ts"
+import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks";
+import {loginResponse, setIsNewUser} from "../../services/slices/authSlice.ts"
+import { userType } from "../../utils/interfaces.ts";
 
 const Login = () => {
     const dispatch = useAppDispatch()
+    const userType:userType = useAppSelector(state=>state.authReducer.userType)
+    const {isPending,response} = useAppSelector(state=>state.authReducer.loginResponse)
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: { email: '' ,password: ""},
@@ -15,15 +18,32 @@ const Login = () => {
 
         },
     });
+
+    const handleSubmit = async(valuesFromForm:{email:string,password:string})=>{
+        const userData = {...valuesFromForm,userType}
+        console.log(userData);
+        if(userData.email&&userData.userType&&userData.password){
+            try{
+                const response = await dispatch(loginResponse(userData))
+                console.log(response);
+                
+            }catch(err){
+                console.log(err);
+                
+            }
+        }
+    }
+    console.log(response);
+    
   return (
-    <form className="login-form" onSubmit={form.onSubmit((value)=>console.log(value))}>
-            <TextInput label="email" w={"100%"} radius={"md"} size="xl" {...form.getInputProps('email')} mt="md" placeholder="Email" />
-            <PasswordInput label="Password" w={"100%"} radius={"md"} className="inputs" size="xl" {...form.getInputProps('password')} mt={"md"} placeholder="Password" />
+    <form className="login-form" onSubmit={form.onSubmit((value)=>handleSubmit(value))}>
+            <TextInput label="email" w={"100%"} radius={"md"} size="lg" {...form.getInputProps('email')} mt="md" placeholder="Email" />
+            <PasswordInput label="Password" w={"100%"} radius={"md"} className="inputs" size="lg" {...form.getInputProps('password')} mt={"md"} placeholder="Password" />
             
-            <Button radius={"lg"} type="submit" mt="md" w={200} h={50}>
+            <Button loading={isPending?true:false} loaderProps={{ type: 'dots' }} radius={"lg"} type="submit" mt="md" w={200} h={50}>
                 Login
             </Button>
-            <p>Dont have an account? Please <a onClick={()=>dispatch(setIsNewUser(false))}>Register</a></p>
+            <p>Dont have an account? Please <a onClick={()=>dispatch(setIsNewUser(true))}>Register</a></p>
         </form>
   )
 }
