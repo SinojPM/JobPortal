@@ -4,17 +4,15 @@ export type userType = "job seeker" | "employer"
 export interface userTypeState{
     userType:"job seeker" | "employer";
     isNewUser:boolean;
-    userDetails:userDetails | {}
+    userDetails:registerDetails
     registerResponse:{
         isPending:boolean;
-        isError:boolean;
         response:registerDetails[] | []
     };
-    loginDetails:loginDetails| {};
+    loginDetails:loginDetails;
     loginResponse:{
         isPending:boolean,
         response:registerDetails[]|[],
-        isError:boolean,
     };
 }
 export interface userDetails{

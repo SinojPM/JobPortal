@@ -1,22 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { userType, userTypeState, registerDetails, loginDetails } from "../../utils/interfaces";
-import { existingUserApi, loginUserApi, registerUserApi } from "../api/allApi";
-import { AxiosResponse } from "axios";
+import {  createNewUserApi, getExistingUserApi, loginApi } from "../api/allApi";
 
 const initialState: userTypeState = {
     userType: "job seeker",
     isNewUser: false,
-    userDetails: {},
+    userDetails: {
+        username: "",
+        email: "",
+        password: "",
+        userType: "employer",
+    },
     registerResponse: {
         isPending: false,
-        isError: false,
         response: []
     },
-    loginDetails: {},
+    loginDetails: {
+        email: "",
+        password: "",
+        userType: "employer",
+    },
     loginResponse: {
         isPending: false,
         response: [],
-        isError: false
     }
 }
 const authSlice = createSlice({
@@ -31,7 +37,6 @@ const authSlice = createSlice({
         },
         setUserData: (state, dataFromForm: { payload: registerDetails }) => {
             state.userDetails = dataFromForm.payload
-            console.log(state.userDetails);
         },
         setLoginDetails: (state, dataFromForm: { payload: loginDetails }) => {
             state.loginDetails = dataFromForm.payload
@@ -40,18 +45,11 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(registerResponse.fulfilled, (state, Apiresult: { payload: registerDetails[] | [] }) => {
             state.registerResponse.response = Apiresult.payload
-            state.registerResponse.isError = false;
             state.registerResponse.isPending = false
         })
         builder.addCase(registerResponse.pending, (state) => {
             state.registerResponse.response = []
-            state.registerResponse.isError = false;
             state.registerResponse.isPending = true
-        })
-        builder.addCase(registerResponse.rejected, (state) => {
-            state.registerResponse.response = []
-            state.registerResponse.isError = true;
-            state.registerResponse.isPending = false;
         })
         builder.addCase(postNewUserToDB.pending, (state) => {
             state.registerResponse.isPending = true
@@ -60,58 +58,55 @@ const authSlice = createSlice({
             state.registerResponse.response = Apiresult.payload
             state.registerResponse.isPending = false
         })
-        builder.addCase(postNewUserToDB.rejected, (state) => {
-            state.registerResponse.isPending = false
-            state.registerResponse.isError = true
-        })
-        builder.addCase(loginResponse.fulfilled,(state,Apiresult:{payload:registerDetails[] | []})=>{
+        builder.addCase(loginResponse.fulfilled, (state, Apiresult: { payload: registerDetails[] | [] }) => {
             state.loginResponse.response = Apiresult.payload
             state.loginResponse.isPending = false
         })
-        builder.addCase(loginResponse.pending,(state)=>{
+        builder.addCase(loginResponse.pending, (state) => {
             state.loginResponse.isPending = true
-        })
-        builder.addCase(loginResponse.rejected,(state)=>{
-            state.loginResponse.isError = true
         })
     }
 })
 
 //function will return the value if an existing user is present
 export const registerResponse = createAsyncThunk("authSlice/registerResponse", async (email: string) => {
-    const response: AxiosResponse = await existingUserApi(email)
-    if (response.status == 404) {
+    try{
+        const response = await getExistingUserApi(email)
         console.log(response);
-        return []
-    } else if (response.status == 200) {
-        console.log(response);
-        return response.data
-    }
+        return response
+    }catch(err){
+         if(err==="Not found"){
+            return []
+         }else{
+            console.log(err);
+         }
+    } 
 })
 //function used to register new user if there is no user is Present
 export const postNewUserToDB = createAsyncThunk("authSlice/postNewUserToDB", async (valueFromForm: registerDetails) => {
-    const response: AxiosResponse = await registerUserApi(valueFromForm)
-    if (response.status === 201) {
-        return [response.data]
-    } else {
+    try{
+        const response = await createNewUserApi(valueFromForm)
+        console.log(response);
+        return response
+    }catch(err){
         return []
     }
 })
+
 //function for login and if user exists in db returns userData
 export const loginResponse = createAsyncThunk("authSlice/loginResponse", async (valueFromForm: loginDetails) => {
-    console.log(valueFromForm);
-    const response: AxiosResponse = await loginUserApi(valueFromForm)
-    if(response.status === 200){
-        if(response.data[0].password===valueFromForm.password){
-            sessionStorage.setItem("user",JSON.stringify(response.data[0]))
-            alert(" success")
-            return response.data
+    try{
+        const response = await loginApi(valueFromForm)
+        if(response[0].password===valueFromForm.password){
+            sessionStorage.setItem("user",JSON.stringify(response[0]))
+            alert("success")
+            return response
+        }else{
+            alert("wrong password")
         }
-        else{
-            alert("Wrong passWord");
-        }
-    }else{
-        alert("Check email or userType")
+    }catch(err){
+        alert(`user not found ,check your Email or are you ${valueFromForm.userType=="employer"?"a Job Seeker?":"an employer?"}`)
+        
     }
 })
 

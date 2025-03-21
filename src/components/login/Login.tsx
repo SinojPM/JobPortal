@@ -8,7 +8,7 @@ import { userType } from "../../utils/interfaces.ts";
 const Login = () => {
     const dispatch = useAppDispatch()
     const userType:userType = useAppSelector(state=>state.authReducer.userType)
-    const {isPending,response} = useAppSelector(state=>state.authReducer.loginResponse)
+    const {isPending} = useAppSelector(state=>state.authReducer.loginResponse)
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: { email: '' ,password: ""},
@@ -24,17 +24,12 @@ const Login = () => {
         console.log(userData);
         if(userData.email&&userData.userType&&userData.password){
             try{
-                const response = await dispatch(loginResponse(userData))
-                console.log(response);
-                
+                dispatch(loginResponse(userData))
             }catch(err){
                 console.log(err);
-                
             }
         }
     }
-    console.log(response);
-    
   return (
     <form className="login-form" onSubmit={form.onSubmit((value)=>handleSubmit(value))}>
             <TextInput label="email" w={"100%"} radius={"md"} size="lg" {...form.getInputProps('email')} mt="md" placeholder="Email" />

@@ -37,7 +37,7 @@ const Auth = () => {
                         :
                         "Get More Opportunities"
                 }</h1>
-                <p>{isNewUser?"SignIn":"SignUp"} with Email</p>
+                <p>{isNewUser?"SignUp":"SignIn"} with Email</p>
                 <div className="auth-form-container">
                     {
                         isNewUser ?

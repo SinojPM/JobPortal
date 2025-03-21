@@ -1,0 +1,1 @@
+export const baseUrl:string = "https://67d7da1e9d5e3a10152c4234.mockapi.io/flycatch/api"
