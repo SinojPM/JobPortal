@@ -1,0 +1,27 @@
+.login-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: .5rem;
+    padding:5px 2rem;
+    border: var(--text-secondary) 3px solid;
+    border-radius: 10px;
+    
+}
+.login-form a{
+    color: var(--text-primary);
+    cursor: pointer;
+    text-decoration: underline;
+}
+.login-form a:hover{
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: underline;
+}
+.mantine-TextInput-label{
+    color: var(--text-primary);
+}
+.mantine-PasswordInput-label{
+    color: var(--text-primary);
+}
