@@ -1,3 +1,4 @@
+import { JSX } from "react";
 
 
 export type userType = "job seeker" | "employer"
@@ -14,11 +15,17 @@ export interface userTypeState{
         isPending:boolean,
         response:registerDetails[]|[],
     };
+    auth:{
+        isAuthenticated:boolean;
+        userType:userType;
+    }
 }
 export interface userDetails{
-    name:     string;
+    username:     string;
     email:    string;
     password: string;
+    userType:userType;
+    id:string;
 }
 export interface registerDetails{
     username:string;
@@ -31,3 +38,9 @@ export interface loginDetails{
     password:string;
     userType:userType
 } 
+
+export interface routeDetails{
+    path:string;
+    component:JSX.Element;
+    allowedUsers:userType | "public" | "all";
+}

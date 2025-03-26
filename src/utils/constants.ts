@@ -1,1 +1,2 @@
-export const baseUrl:string = "https://67d7da1e9d5e3a10152c4234.mockapi.io/flycatch/api"
+export const passwordRegex:RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/
+
