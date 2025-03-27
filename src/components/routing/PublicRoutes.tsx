@@ -2,6 +2,8 @@ import { Navigate, Outlet } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks"
 import { setIsAuthenticated } from "../../services/slices/authSlice"
 import { useEffect } from "react"
+import { pathConstants } from "../../utils/pathConstants"
+import { allowedUsers } from "../../utils/constants"
 
 
 
@@ -13,7 +15,7 @@ const PublicRoutes = () => {
         dispatch(setIsAuthenticated())
     },[])
   return (
-    isAuthenticated?<Navigate to={userType==="job seeker"?"/jobs":"/home"}/>:<Outlet/>
+    isAuthenticated?<Navigate to={userType===allowedUsers.jobSeeker?pathConstants.jobs:pathConstants.home}/>:<Outlet/>
   )
 }
 

@@ -1,23 +1,11 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
-import Auth from './pages/Auth/Auth.tsx'
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import PublicRoutes from './components/routing/PublicRoutes.tsx';
-import Home from './pages/home/Home.tsx';
 import PrivateRoutes from './components/routing/PrivateRoutes.tsx';
-import UnAuthorized from './pages/UnAuthorized.tsx/UnAuthorized.tsx';
-import JobSeekerHome from './pages/JobSeekerHome.tsx/JobSeekerHome.tsx';
-import { routeDetails } from './utils/interfaces.ts';
-
-
-const routes:routeDetails[] = [
-  {path:"/login",component:<Auth/>,allowedUsers:"public"},
-  {path:"/home",component:<Home/>,allowedUsers:"employer"},
-  {path:"/jobs",component:<JobSeekerHome/>,allowedUsers:"job seeker"},
-  {path:"/unauthorized",component:<UnAuthorized/>,allowedUsers:"all"},
-  {path:"/",component:<Navigate to={"/login"}/>,allowedUsers:"public"}
-]
+import { routes } from './utils/pathConstants.tsx';
+import { allowedUsers } from './utils/constants.ts';
 
 
 function App() {
@@ -26,10 +14,10 @@ function App() {
       <Routes>
 
         {/* public routes  */}
-        
+
         <Route element={<PublicRoutes />}>
         {
-            routes.filter(item=>item.allowedUsers==="public").map((item,index)=>(
+            routes.filter(item=>item.allowedUsers===allowedUsers.public).map((item,index)=>(
               <Route key={`public${index}`} path={`${item.path}`} element={item.component} />
             ))
           }
@@ -41,7 +29,7 @@ function App() {
 
         <Route element={<PrivateRoutes role={"employer"} />}>
           {
-            routes.filter(item=>item.allowedUsers==="employer").map((item,index)=>(
+            routes.filter(item=>item.allowedUsers===allowedUsers.employer).map((item,index)=>(
               <Route key={`employer${index}`} path={`${item.path}`} element={item.component} />
             ))
           }
@@ -49,9 +37,9 @@ function App() {
 
       {/* private route for job seeker */}
        
-        <Route element={<PrivateRoutes role={"job seeker"}/>}>
+        <Route element={<PrivateRoutes role={"jobSeeker"}/>}>
         {
-            routes.filter(item=>item.allowedUsers==="job seeker").map((item,index)=>(
+            routes.filter(item=>item.allowedUsers===allowedUsers.jobSeeker).map((item,index)=>(
               <Route key={`seeker${index}`} path={`${item.path}`} element={item.component} />
             ))
           }
@@ -60,7 +48,7 @@ function App() {
 
         {/* common routes */}
         {
-            routes.filter(item=>item.allowedUsers==="all").map((item,index)=>(
+            routes.filter(item=>item.allowedUsers===allowedUsers.all).map((item,index)=>(
               <Route key={`all${index}`} path={`${item.path}`} element={item.component} />
             ))
           }

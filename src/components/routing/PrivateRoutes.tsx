@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks"
 import { setIsAuthenticated } from "../../services/slices/authSlice"
 import { Navigate, Outlet } from "react-router-dom"
 import { userType } from "../../utils/interfaces"
+import { pathConstants } from "../../utils/pathConstants"
 
 
 const PrivateRoutes:React.FC<{role:userType}> = ({role}) => {
@@ -17,8 +18,8 @@ const PrivateRoutes:React.FC<{role:userType}> = ({role}) => {
         userType===role?
         <Outlet/>
         :
-        <Navigate to={"/unauthorized"}/>
-        :<Navigate to={"/login"}/>
+        <Navigate to={pathConstants.unauthorized}/>
+        :<Navigate to={pathConstants.login}/>
     )
     
 }

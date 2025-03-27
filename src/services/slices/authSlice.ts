@@ -4,16 +4,17 @@ import {  createNewUserApi, getExistingUserApi, loginApi } from "../api/allApi";
 import sign from "jwt-encode"
 import { jwtDecode } from "jwt-decode";
 import { errorNotification, successNotifications, warningNotifications } from "../../utils/mantineConfigs";
+import { allowedUsers } from "../../utils/constants";
 
 
 const initialState: userTypeState = {
-    userType: "job seeker",
+    userType: allowedUsers.jobSeeker,
     isNewUser: false,
     userDetails: {
         username: "",
         email: "",
         password: "",
-        userType: "employer",
+        userType: allowedUsers.employer,
     },
     registerResponse: {
         isPending: false,
@@ -22,7 +23,7 @@ const initialState: userTypeState = {
     loginDetails: {
         email: "",
         password: "",
-        userType: "employer",
+        userType: allowedUsers.employer,
     },
     loginResponse: {
         isPending: false,
@@ -30,7 +31,7 @@ const initialState: userTypeState = {
     },
     auth:{
         isAuthenticated:false,
-        userType:"employer"
+        userType:allowedUsers.employer
     }
 }
 const authSlice = createSlice({
@@ -125,7 +126,7 @@ export const loginResponse = createAsyncThunk("authSlice/loginResponse", async (
             warningNotifications("Try Again","Wrong Password")  
         }
     }catch(err){
-        errorNotification("User not fount",`check your Email or are you ${valueFromForm.userType=="employer"?"a Job Seeker?":"an employer?"}`)
+        errorNotification("User not fount",`check your Email or are you ${valueFromForm.userType==allowedUsers.employer?"a Job Seeker?":"an employer?"}`)
         
     }
 })

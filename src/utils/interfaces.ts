@@ -1,9 +1,9 @@
 import { JSX } from "react";
 
 
-export type userType = "job seeker" | "employer"
+export type userType = "jobSeeker" | "employer"
 export interface userTypeState{
-    userType:"job seeker" | "employer";
+    userType:"jobSeeker" | "employer";
     isNewUser:boolean;
     userDetails:registerDetails
     registerResponse:{
@@ -42,5 +42,13 @@ export interface loginDetails{
 export interface routeDetails{
     path:string;
     component:JSX.Element;
-    allowedUsers:userType | "public" | "all";
+    allowedUsers:allowedUsers
+}
+export type allowedUsers = userType | "public" | "all";
+
+export interface AllallowedUsers{
+    jobSeeker:"jobSeeker";
+    employer:"employer";
+    public:"public";
+    all:"all";
 }

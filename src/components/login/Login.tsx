@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks";
 import {loginResponse, setIsNewUser} from "../../services/slices/authSlice.ts"
 import { userType } from "../../utils/interfaces.ts";
 import { useNavigate } from "react-router-dom";
-import { passwordRegex } from "../../utils/constants.ts";
+import { allowedUsers, passwordRegex } from "../../utils/constants.ts";
+import { pathConstants } from "../../utils/pathConstants.tsx";
 
 const Login = () => {
     const dispatch = useAppDispatch()
@@ -27,11 +28,11 @@ const Login = () => {
             try{
                 const result = await dispatch(loginResponse(userData))
                 if (result?.payload?.length>0) {
-                    if(result.payload[0].userType=="employer"){
-                        navigate("/home")
+                    if(result.payload[0].userType==allowedUsers.employer){
+                        navigate(pathConstants.home)
                         
-                    }else if(result.payload[0].userType=="job seeker"){
-                            navigate("/jobs")
+                    }else if(result.payload[0].userType==allowedUsers.jobSeeker){
+                            navigate(pathConstants.jobs)
                     }
                     
                 }
