@@ -10,6 +10,7 @@
     background: white;
     display: grid;
     grid-template-columns: 5fr 7fr;
+    position: relative;
 }
 
 .auth-left-sec {
@@ -34,6 +35,7 @@
     position: absolute;
     top: 2rem;
     left: 5rem;
+    z-index: 5;
 }
 
 .auth-left-hired {
@@ -114,6 +116,13 @@
     .auth-form-container {
         width: 95%;
     }
+    .auth-logo {
+        position: absolute;
+        top: 1rem;
+        left: 2rem;
+        z-index: 5;
+    }
+    
 
 
 }
@@ -121,7 +130,7 @@
 @media screen and (max-width:524px) {
     .auth-container {
         width: 100%;
-        min-height: 200vh;
+        height: 100vh;
         background: white;
         display: grid;
         grid-template-columns: none;
@@ -130,7 +139,7 @@
 
     .auth-left-sec {
         width: 100%;
-        min-height: 100vh;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: flex-end;

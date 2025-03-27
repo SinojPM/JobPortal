@@ -4,6 +4,8 @@ import { TextInput, PasswordInput, Button } from "@mantine/core"
 import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks";
 import { postNewUserToDB, registerResponse, setIsNewUser, setUserData } from "../../services/slices/authSlice.js";
 import { userType } from "../../utils/interfaces.js";
+import { passwordRegex } from "../../utils/constants.js";
+import { successNotifications } from "../../utils/mantineConfigs.js";
 
 
 const Register = () => {
@@ -20,12 +22,11 @@ const Register = () => {
             try {
                 const result = await dispatch(registerResponse(userData.email))
                 if (result.payload.length === 0) {
-                    const postResult = await dispatch(postNewUserToDB(userData))
-                    console.log(postResult);
+                    await dispatch(postNewUserToDB(userData))
                     dispatch(setIsNewUser(false))
                 }
                 else {
-                    alert("userAlready exists")
+                    successNotifications("Please Login","User Already exists")
                 }
             } catch (err) {
                 console.log(err);
@@ -40,7 +41,7 @@ const Register = () => {
         validate: {
             username: isNotEmpty("enter UserName"),
             email: isEmail('Invalid email'),
-            password: (value) => (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/.test(value) ? null : 'Must have Atleast 1 uppercase,lowercase,special symboland Numeric values'),
+            password: (value) => (passwordRegex.test(value) ? null : 'Must have Atleast 1 uppercase,lowercase,special symboland Numeric values'),
         },
     });
     return (

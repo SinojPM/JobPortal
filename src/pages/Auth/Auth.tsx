@@ -6,6 +6,7 @@ import Login from "../../components/login/Login"
 import Register from "../../components/register/Register"
 import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks"
 import { setUserType } from "../../services/slices/authSlice"
+import { allowedUsers } from "../../utils/constants"
 
 const Auth = () => {
     const dispatch = useAppDispatch()
@@ -13,6 +14,7 @@ const Auth = () => {
     const isNewUser = useAppSelector((state) => state.authReducer.isNewUser)
     return (
         <div className="auth-container">
+            <img src={Logo2} alt="" className="auth-logo" />
             <div className="auth-left-sec">
                 <img className="auth-left-sec-man" src={authImg} alt="" />
                 <div className="auth-left-hired">
@@ -20,14 +22,14 @@ const Auth = () => {
                     <h4>100K+</h4>
                     <p>People got hired</p>
                 </div>
-                <img src={Logo2} alt="" className="auth-logo" />
+                
             </div>
             <div className="auth-right-sec">
                 <div className="auth-user-buttons">
-                    <button onClick={() => dispatch(setUserType("job seeker"))} className={`auth-user-btn ${typeOfUser === "job seeker" && "active"}`}>
+                    <button onClick={() => dispatch(setUserType(allowedUsers.jobSeeker))} className={`auth-user-btn ${typeOfUser === allowedUsers.jobSeeker && "active"}`}>
                         Job Seeker
                     </button>
-                    <button onClick={() => dispatch(setUserType("employer"))} className={`auth-user-btn ${typeOfUser === "employer" && "active"}`}>
+                    <button onClick={() => dispatch(setUserType(allowedUsers.employer))} className={`auth-user-btn ${typeOfUser === allowedUsers.employer && "active"}`}>
                         Employer
                     </button>
                 </div>
@@ -46,6 +48,7 @@ const Auth = () => {
                             <Login />
                     }
                 </div>
+                
             </div>
         </div>
     )

@@ -1,15 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { userType, userTypeState, registerDetails, loginDetails } from "../../utils/interfaces";
+import { userType, userTypeState, registerDetails, loginDetails, userDetails, } from "../../utils/interfaces";
 import {  createNewUserApi, getExistingUserApi, loginApi } from "../api/allApi";
+import sign from "jwt-encode"
+import { jwtDecode } from "jwt-decode";
+import { errorNotification, successNotifications, warningNotifications } from "../../utils/mantineConfigs";
+import { allowedUsers } from "../../utils/constants";
+
 
 const initialState: userTypeState = {
-    userType: "job seeker",
+    userType: allowedUsers.jobSeeker,
     isNewUser: false,
     userDetails: {
         username: "",
         email: "",
         password: "",
-        userType: "employer",
+        userType: allowedUsers.employer,
     },
     registerResponse: {
         isPending: false,
@@ -18,11 +23,15 @@ const initialState: userTypeState = {
     loginDetails: {
         email: "",
         password: "",
-        userType: "employer",
+        userType: allowedUsers.employer,
     },
     loginResponse: {
         isPending: false,
         response: [],
+    },
+    auth:{
+        isAuthenticated:false,
+        userType:allowedUsers.employer
     }
 }
 const authSlice = createSlice({
@@ -40,6 +49,17 @@ const authSlice = createSlice({
         },
         setLoginDetails: (state, dataFromForm: { payload: loginDetails }) => {
             state.loginDetails = dataFromForm.payload
+        },
+        setIsAuthenticated:(state)=>{
+            const token = sessionStorage.getItem("token")
+            if(token!==null){
+                const decoded:userDetails = jwtDecode(token)
+                state.auth.isAuthenticated = true
+                state.auth.userType = decoded.userType
+                
+            }else{
+                state.auth.isAuthenticated = false
+            }   
         }
     },
     extraReducers: (builder) => {
@@ -72,7 +92,7 @@ const authSlice = createSlice({
 export const registerResponse = createAsyncThunk("authSlice/registerResponse", async (email: string) => {
     try{
         const response = await getExistingUserApi(email)
-        console.log(response);
+
         return response
     }catch(err){
          if(err==="Not found"){
@@ -86,7 +106,6 @@ export const registerResponse = createAsyncThunk("authSlice/registerResponse", a
 export const postNewUserToDB = createAsyncThunk("authSlice/postNewUserToDB", async (valueFromForm: registerDetails) => {
     try{
         const response = await createNewUserApi(valueFromForm)
-        console.log(response);
         return response
     }catch(err){
         return []
@@ -98,17 +117,19 @@ export const loginResponse = createAsyncThunk("authSlice/loginResponse", async (
     try{
         const response = await loginApi(valueFromForm)
         if(response[0].password===valueFromForm.password){
-            sessionStorage.setItem("user",JSON.stringify(response[0]))
-            alert("success")
+            const token = sign(response[0],"jobportal")
+            sessionStorage.setItem("token",token)
+            successNotifications("Success","Successfully Logged In")
             return response
-        }else{
-            alert("wrong password")
+        }
+        else{ 
+            warningNotifications("Try Again","Wrong Password")  
         }
     }catch(err){
-        alert(`user not found ,check your Email or are you ${valueFromForm.userType=="employer"?"a Job Seeker?":"an employer?"}`)
+        errorNotification("User not fount",`check your Email or are you ${valueFromForm.userType==allowedUsers.employer?"a Job Seeker?":"an employer?"}`)
         
     }
 })
 
-export const { setUserType, setIsNewUser, setUserData, setLoginDetails } = authSlice.actions
+export const { setUserType, setIsNewUser, setUserData, setLoginDetails,setIsAuthenticated} = authSlice.actions
 export default authSlice.reducer

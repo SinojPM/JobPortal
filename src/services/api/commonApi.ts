@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { baseUrl } from "../../utils/constants";
-
+const baseUrl = import.meta.env.VITE_BASE_URL
 
 
 export const axiosInstance = axios.create({

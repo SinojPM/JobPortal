@@ -4,9 +4,13 @@ import { TextInput,PasswordInput,Button } from "@mantine/core"
 import { useAppDispatch, useAppSelector } from "../../redux/ReduxHooks";
 import {loginResponse, setIsNewUser} from "../../services/slices/authSlice.ts"
 import { userType } from "../../utils/interfaces.ts";
+import { useNavigate } from "react-router-dom";
+import { allowedUsers, passwordRegex } from "../../utils/constants.ts";
+import { pathConstants } from "../../utils/pathConstants.tsx";
 
 const Login = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const userType:userType = useAppSelector(state=>state.authReducer.userType)
     const {isPending} = useAppSelector(state=>state.authReducer.loginResponse)
     const form = useForm({
@@ -14,17 +18,25 @@ const Login = () => {
         initialValues: { email: '' ,password: ""},
         validate: {
             email: isEmail('Invalid email'),
-            password: (value) => (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/.test(value) ? null : 'Must have Atleast 1 uppercase,lowercase,special symboland Numeric values'),
-
+            password: (value) => (passwordRegex.test(value) ? null : 'Must have Atleast 1 uppercase,lowercase,special symboland Numeric values'),
         },
     });
 
     const handleSubmit = async(valuesFromForm:{email:string,password:string})=>{
         const userData = {...valuesFromForm,userType}
-        console.log(userData);
         if(userData.email&&userData.userType&&userData.password){
             try{
-                dispatch(loginResponse(userData))
+                const result = await dispatch(loginResponse(userData))
+                if (result?.payload?.length>0) {
+                    if(result.payload[0].userType==allowedUsers.employer){
+                        navigate(pathConstants.home)
+                        
+                    }else if(result.payload[0].userType==allowedUsers.jobSeeker){
+                            navigate(pathConstants.jobs)
+                    }
+                    
+                }
+                
             }catch(err){
                 console.log(err);
             }
