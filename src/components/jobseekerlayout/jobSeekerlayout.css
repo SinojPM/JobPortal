@@ -1,0 +1,8 @@
+.find-jobs-container{
+    height: 100vh;
+}
+.find-jobs-contents{
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

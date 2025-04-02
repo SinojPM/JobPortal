@@ -31,7 +31,14 @@ const initialState: userTypeState = {
     },
     auth:{
         isAuthenticated:false,
-        userType:allowedUsers.employer
+        userType:allowedUsers.employer,
+        userDetails:{
+            username:"",
+            email:"",
+            password:"",
+            userType:allowedUsers.employer,
+            id:"",
+        }
     }
 }
 const authSlice = createSlice({
@@ -56,6 +63,7 @@ const authSlice = createSlice({
                 const decoded:userDetails = jwtDecode(token)
                 state.auth.isAuthenticated = true
                 state.auth.userType = decoded.userType
+                state.auth.userDetails = decoded
                 
             }else{
                 state.auth.isAuthenticated = false

@@ -1,0 +1,45 @@
+.jobseeker-sidebar{
+    /* position: fixed; */
+    border:solid var(--neutral-2) 2px;
+    
+}
+.jobseeker-sidebar-list{
+    width: 100%;
+}
+.jobseeker-sidebar-listItem{
+    padding: 1rem;
+    transition: transform .1s ease-in-out;
+}
+.jobseeker-sidebar-listItem.active{
+   background:var(--primary-1);
+   color: var(--primary-2);
+   position: relative;
+   border-radius: 10px;
+}
+
+.jobseeker-sidebar-listItem.active::before{
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary-2);
+    left: 0;
+    border-radius: 2px;
+ }
+Text{
+    font-size: 5px;
+}
+.jobseeker-sidebar-listItem:hover{
+    background: var(--primary-1);
+    color: var(--primary-2);
+    /* transform: translateX(3px); */
+    box-shadow: 2px 2px var(--neutral-2);
+    border-radius: 10px;
+}
+.jobseeker-sidebar-list2{
+    justify-content: space-between;
+    flex: 1;
+}
+.jobseeker-sidebar-user{
+    cursor: pointer;
+}

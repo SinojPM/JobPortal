@@ -1,9 +1,12 @@
 :root{
-    --bg-secondary:#F8F8FD;
-    --bg-primary:#ffff;
-    --color-primary:#4640DE;
-    --color-secondary:#D7DBFF;
-    --heading-main:#202430;
-    --text-primary:#515B6F;
-    --text-secondary:#7C8493;
+    --primary-0:#E9EBFD;
+    --primary-1:#CCCCF5;
+    --primary-2:#4640DE;
+    --neutral-0:#FFFFFF;
+    --neutral-1:#F8F8FD;
+    --neutral-2:#D6DDEB;
+    --neutral-3:#A8ADB7;
+    --neutral-4:#7C8493;
+    --neutral-5:#515B6F;
+    --neutral-6:#25324B;
   }
