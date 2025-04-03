@@ -10,7 +10,7 @@ const JobCard = ({data}:{data:JobDetails}) => {
             <Grid.Col span={{ lg: 6 }}>
                 <Flex gap={"md"}>
                     <Box className="JobCard-logo">
-                        <Image src={data.profileImg} />
+                        <Image w={"100%"} h={"100%"} src={data.profileImg} />
                     </Box>
                     <Flex direction={"column"}>
                         <Title order={3} c={"neutral.5"}>{data.jobTitle}</Title>

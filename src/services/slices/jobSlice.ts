@@ -55,7 +55,6 @@ const jobSlice = createSlice({
         },
         searchJobs:(state,searchValues:{payload:searchValues})=>{
             const {jobTitle,location} = searchValues.payload
-            console.log(1);
             if(jobTitle&&location){
                 state.apiResponse.dummyAlljobs = state.apiResponse.alljobs.filter(item=>{
                     return item.jobTitle.toLowerCase().includes(searchValues.payload.jobTitle.toLowerCase().trim()) && item.Location.toLowerCase().trim().includes(searchValues.payload.location.toLowerCase().trim())

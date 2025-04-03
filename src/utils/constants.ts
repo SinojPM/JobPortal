@@ -1,4 +1,3 @@
-import { useAppSelector } from "../redux/ReduxHooks"
 import { AllallowedUsers, filterTypeProps } from "./interfaces"
 import { JobFilter } from "./interfaces"
 
