@@ -106,3 +106,8 @@ export interface jobState {
         JobLevelfilterArray: string[];
     }
 }
+
+export interface searchValues {
+    jobTitle: string;
+    location: string;
+}

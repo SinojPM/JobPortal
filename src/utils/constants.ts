@@ -1,3 +1,4 @@
+import { useAppSelector } from "../redux/ReduxHooks"
 import { AllallowedUsers, filterTypeProps } from "./interfaces"
 import { JobFilter } from "./interfaces"
 
@@ -68,4 +69,6 @@ export const jobFilters:JobFilter[] = [
     JobLevel: "Job Level",
     SalaryRange: "Salary Range"
   };
+
+  export const jobsPerPage = 6
   

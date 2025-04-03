@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { jobState } from "../../utils/interfaces";
 import { getAllJobsApi } from "../api/allApi";
+import { searchValues } from "../../utils/interfaces";
 const initialState: jobState = {
     apiResponse: {
         isPending: false,
@@ -44,6 +45,37 @@ const jobSlice = createSlice({
                 state.apiResponse.dummyAlljobs = state.apiResponse.alljobs.filter(item=>EmploymentTypefilterArray.includes(item.jobType) || JobCategoryfilterArray.includes(item.category) || JobLevelfilterArray.includes(item.jobLevel))
                 state.pagination.currentPage=1
             }
+        },
+        clearFilter:(state)=>{
+            state.filters.EmploymentTypefilterArray=[]
+            state.filters.JobCategoryfilterArray=[]
+            state.filters.JobLevelfilterArray=[]
+            state.apiResponse.dummyAlljobs = state.apiResponse.alljobs
+
+        },
+        searchJobs:(state,searchValues:{payload:searchValues})=>{
+            const {jobTitle,location} = searchValues.payload
+            console.log(1);
+            if(jobTitle&&location){
+                state.apiResponse.dummyAlljobs = state.apiResponse.alljobs.filter(item=>{
+                    return item.jobTitle.toLowerCase().includes(searchValues.payload.jobTitle.toLowerCase().trim()) && item.Location.toLowerCase().trim().includes(searchValues.payload.location.toLowerCase().trim())
+                })
+                state.pagination.currentPage=1
+            }else if(jobTitle){
+                state.apiResponse.dummyAlljobs = state.apiResponse.alljobs.filter(item=>{
+                    return item.jobTitle.toLowerCase().includes(searchValues.payload.jobTitle.toLowerCase().trim())
+                })
+                state.pagination.currentPage=1
+            }else if(location){
+                state.apiResponse.dummyAlljobs = state.apiResponse.alljobs.filter(item=>{
+                    return item.Location.toLowerCase().includes(searchValues.payload.location.toLowerCase().trim())
+                })
+                state.pagination.currentPage=1
+            }
+            else{
+                state.apiResponse.dummyAlljobs = state.apiResponse.alljobs
+                state.pagination.currentPage=1
+            }
         }
 
     },
@@ -69,5 +101,5 @@ export const fetchAllJobs = createAsyncThunk("jobSlice/fetchAllJobs", async () =
 
     }
 })
-export const { setCurrentPage, setEmploymentTypeFilterArray, setJobCategoryFilterArray, setJobLevelFilterArray ,filterJobs} = jobSlice.actions
+export const { setCurrentPage, setEmploymentTypeFilterArray, setJobCategoryFilterArray, setJobLevelFilterArray ,filterJobs,searchJobs,clearFilter} = jobSlice.actions
 export default jobSlice.reducer

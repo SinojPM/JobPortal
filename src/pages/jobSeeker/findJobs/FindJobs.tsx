@@ -1,4 +1,4 @@
-import { Center, Flex, Grid, Pagination, Stack, Text, Title } from "@mantine/core"
+import { Button, Center, Flex, Grid, Pagination, Stack, Text, Title } from "@mantine/core"
 import "./findJobs.css"
 import SearchBar from "../../../components/jobseeker/searchbar/SearchBar"
 import FilterCollapse from "../../../components/jobseeker/jobfilter/FilterCollapse"
@@ -6,40 +6,47 @@ import { filterTypes, jobFilters } from "../../../utils/constants"
 import JobCard from "../../../components/jobseeker/jobcard/JobCard"
 import JobSeekerLayout from "../../../components/jobseekerlayout/JobSeekerLayout"
 import { useAppDispatch, useAppSelector } from "../../../redux/ReduxHooks"
-import { useEffect } from "react"
-import { setCurrentPage, fetchAllJobs,filterJobs } from "../../../services/slices/jobSlice"
+import { useEffect, useRef } from "react"
+import { setCurrentPage, fetchAllJobs,filterJobs,clearFilter } from "../../../services/slices/jobSlice"
+import { jobsPerPage } from "../../../utils/constants"
 jobFilters
 
 
 const FindJobs = () => {
   const dispatch = useAppDispatch()
-  const {apiResponse:{dummyAlljobs},pagination:{currentPage},filters} = useAppSelector(state=>state.jobReducer)
+  const {apiResponse:{dummyAlljobs},pagination:{currentPage}} = useAppSelector(state=>state.jobReducer)
   useEffect(()=>{
     dispatch(fetchAllJobs())
   },[])
   useEffect(()=>{
-    dispatch(filterJobs())
-  },[filters])
-    
-  const jobsPerPage = 6
+    scrollToTop()
+  },[currentPage])
+   const topRef = useRef<HTMLDivElement | null>(null) 
   const startIndex = (currentPage-1)*jobsPerPage
+  const scrollToTop = ()=>{
+    topRef.current?.scrollIntoView({behavior:"smooth"})
+  }
   return (
     <JobSeekerLayout>
         <>
           <SearchBar />
-          <Grid mt={"xl"}>
+          <Grid mt={"xl"} ref={topRef}>
             <Grid.Col span={{ base: 12, lg: 3 }}>
               <Grid>
-                <Grid.Col span={{ base: 12, md: 3, lg: 12 }}>
+                <Grid.Col span={{ base: 12,xs:4, md: 4, lg: 12 }}>
                   <FilterCollapse filterType={filterTypes.EmploymentType} items={jobFilters.filter(item => item.filterType === filterTypes.EmploymentType)} />
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, md: 3, lg: 12 }}>
+                <Grid.Col span={{ base: 12,xs:4, md: 4, lg: 12 }}>
                   <FilterCollapse filterType={filterTypes.JobCategory} items={jobFilters.filter(item => item.filterType === filterTypes.JobCategory)} />
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, md: 3, lg: 12 }}>
+                <Grid.Col span={{ base: 12,xs:4, md: 4, lg: 12 }}>
                   <FilterCollapse filterType={filterTypes.JobLevel} items={jobFilters.filter(item => item.filterType === filterTypes.JobLevel)} />
                 </Grid.Col>
               </Grid>
+              <Flex mt={"lg"} justify={"center"} align={"center"} gap={"xl"}>
+                <Button onClick={()=>dispatch(clearFilter())} color={"neutral.5"}>clear</Button>
+                <Button onClick={()=>dispatch(filterJobs())}>Apply</Button>
+              </Flex>
             </Grid.Col>
             <Grid.Col w={"100%"} px={"xl"} span={{ base: 12, lg: 9 }}>
                 <Flex justify={"start"} align={"center"} mb={"lg"}>

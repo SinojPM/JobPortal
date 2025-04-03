@@ -1,9 +1,13 @@
 import { Button, Flex, Grid, Select, Text, TextInput ,ComboboxItem,OptionsFilter} from "@mantine/core"
 import "./searchbar.css"
-import { useAppSelector } from "../../../redux/ReduxHooks"
+import { useAppDispatch, useAppSelector } from "../../../redux/ReduxHooks"
 import { useForm } from "@mantine/form"
+import { searchJobs } from "../../../services/slices/jobSlice"
+import { searchValues } from "../../../utils/interfaces"
+
 const SearchBar = () => {
     const {locations} = useAppSelector(state=>state.jobReducer)
+    const dispatch = useAppDispatch()
     const form = useForm({
         mode:"uncontrolled",
         initialValues:{
@@ -18,9 +22,14 @@ const SearchBar = () => {
           return splittedSearch.every((searchWord) => words.some((word) => word.includes(searchWord)));
         });
       };
+
+    const handleSearch=(value:searchValues)=>{
+        dispatch(searchJobs(value))
+        
+    }
     return (
         <Flex direction={"column"} justify={"center"} align={"start"} px={{base:"xs",lg:"xl"}} w={"100%"} py={"lg"} className="jobseeker-search-bar">
-            <form onSubmit={form.onSubmit((value)=>console.log(value))} className="jobSeeker-search-form">
+            <form onSubmit={form.onSubmit((value)=>handleSearch(value))} className="jobSeeker-search-form">
                 <Grid p={"xl"} w={"100%"} h={"auto"} justify={"space-evenly"} align={"center"} className="jobseeker-search-bar-search">
                     <Grid.Col span={{base:12,md:5}}>
                         <TextInput {...form.getInputProps("jobTitle")} leftSection={<i className="fa-solid fa-search"></i>} placeholder="Job Title" className="jobseeker-searchbar-input" />
