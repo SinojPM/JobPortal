@@ -16,3 +16,9 @@ export const loginApi = async(valueFromForm:loginDetails)=>{
     return await get(`${apiEndPoints.users}?email=${valueFromForm.email}&userType=${valueFromForm.userType}`)
 }
 
+
+//api for fetching all Products
+
+export const getAllJobsApi = async()=>{
+    return await get(`${apiEndPoints.jobs}`)
+}

@@ -1,0 +1,21 @@
+.jobseeker-search-bar{
+    border-bottom: solid 2px var(--neutral-2);
+}
+.jobseeker-search-bar-search{
+    border: solid 3px var(--neutral-2);
+    border-radius: 1rem;
+}
+.jobSeeker-search-form{
+    width: 100%;
+}
+.jobseeker-searchbar-input .mantine-TextInput-input,.jobseeker-searchbar-input .mantine-Select-input{
+    border: 0px;
+    border-bottom: 2px solid var(--neutral-2);
+    font-size:1rem;
+    font-weight: 900;
+    color: var(--neutral-3);
+}
+.mantine-Select-options{
+    background: var(--neutral-1);
+    color: var(--neutral-3);
+}

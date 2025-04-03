@@ -5,17 +5,17 @@
     flex-direction: column;
     gap: .5rem;
     padding:1rem 2rem;
-    border: var(--text-secondary) 3px solid;
+    border: var(--neutral-3) 3px solid;
     border-radius: 10px;
     
 }
 .register-form a{
-    color: var(--text-primary);
+    color: var(--neutral-5);
     cursor: pointer;
     text-decoration: underline;
 }
 .register-form a:hover{
-    color: var(--color-primary);
+    color: var(--primary-2);
     cursor: pointer;
     text-decoration: underline;
 }

@@ -1,0 +1,15 @@
+.Nav-container{
+    border-bottom:var(--neutral-2) solid 2px;
+}
+.mantine-Drawer-content{
+    padding-left: 0px;
+}
+.m_5df29311{
+    padding: 0;
+}
+.mantine-Drawer-header{
+    position: absolute;
+    top: 0;
+    right:0;
+    background: var(--primary-0);
+}

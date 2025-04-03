@@ -12,7 +12,6 @@ const PrivateRoutes:React.FC<{role:userType}> = ({role}) => {
     useEffect(()=>{
         dispatch(setIsAuthenticated())    
     },[])
-
     return(
       isAuthenticated?
         userType===role?
