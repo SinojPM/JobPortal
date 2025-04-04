@@ -48,15 +48,15 @@ const Companies = () => {
           <Grid mt={"xl"} w={"100%"} gutter={"md"}>
             {
               isPending ?
-                Array(10).fill("dummy").map(()=>(
-                  <Grid.Col span={{ base: 12, sm: 6 }}>
+                Array(10).fill("skelton2").map((item,index)=>(
+                  <Grid.Col key={`${item}${index}`} span={{ base: 12, sm: 6 }}>
                   <Skeleton c="brand.9" height={300} mt={6} width="100%" />
                 </Grid.Col>
                 ))
                 :
                 dummyAllCompanies?.length > 0 ?
-                  dummyAllCompanies?.slice(startIndex,startIndex+companiesPerPage).map((company) => (
-                    <Grid.Col span={{ base: 12, sm: 6 }}>
+                  dummyAllCompanies?.slice(startIndex,startIndex+companiesPerPage).map((company,index) => (
+                    <Grid.Col key={index} span={{ base: 12, sm: 6 }}>
                       <CompanyCard data={company} />
                     </Grid.Col>
                   ))

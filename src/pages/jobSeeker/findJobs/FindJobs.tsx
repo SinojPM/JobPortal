@@ -56,8 +56,8 @@ const FindJobs = () => {
             <Flex direction={"column"} gap={"md"} w={"100%"}>
               {
                 isPending?
-                  Array(6).map(()=>(
-                    <Skeleton c="brand.9" height={400} mt={6} width="100%" />
+                  Array(6).fill("skelton").map((item,index)=>(
+                    <Skeleton  key={`${item}${index}`} c="brand.9" height={400} mt={6} width="100%" />
                   ))
                   :
                 dummyAlljobs?.length > 0

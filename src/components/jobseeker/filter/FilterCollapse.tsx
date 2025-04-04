@@ -11,9 +11,7 @@ const FilterCollapse = ({items,filterType}:{items:string[],filterType:filterType
     const {filters:{EmploymentTypefilterArray,JobCategoryfilterArray,JobLevelfilterArray}} = useAppSelector(state=>state.jobReducer)
     const {filters:{companySizeFilterArray,industryFilterArray}} = useAppSelector(state=>state.companyReducer)
     const dispatch = useAppDispatch()
-    const handleFilter = (filterType:filterType,value:string[])=>{
-        console.log(filterType);
-        
+    const handleFilter = (filterType:filterType,value:string[])=>{        
         switch(filterType){
             case "Employment Type":
                 dispatch(setEmploymentTypeFilterArray(value))
