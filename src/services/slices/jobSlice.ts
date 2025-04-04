@@ -24,7 +24,7 @@ const jobSlice = createSlice({
     name: "jobSlice",
     initialState,
     reducers: {
-        setCurrentPage: (state, currentPage) => {
+        setCurrentPage: (state, currentPage:{payload:number}) => {
             state.pagination.currentPage = currentPage.payload
         },
         setEmploymentTypeFilterArray: (state, data: { payload: string[] }) => {

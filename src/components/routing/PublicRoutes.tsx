@@ -11,6 +11,7 @@ import { allowedUsers } from "../../utils/constants"
 const PublicRoutes = () => {
     const dispatch = useAppDispatch()
     const {isAuthenticated,userType} = useAppSelector(state=>state.authReducer.auth)
+    
     useEffect(()=>{
         dispatch(setIsAuthenticated())
     },[])

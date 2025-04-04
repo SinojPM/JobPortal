@@ -1,15 +1,19 @@
 import {  Checkbox, Collapse, Flex, Text } from "@mantine/core"
 import "./FilterCollapse.css"
 import { useDisclosure } from "@mantine/hooks"
-import { filterType, JobFilter } from "../../../utils/interfaces"
+import { filterType } from "../../../utils/interfaces"
 import { useAppDispatch, useAppSelector } from "../../../redux/ReduxHooks"
 import { setJobLevelFilterArray,setEmploymentTypeFilterArray,setJobCategoryFilterArray } from "../../../services/slices/jobSlice"
+import { setCompanySizeFilterArray, setIndustryFilterArray } from "../../../services/slices/companySlice"
 
-const FilterCollapse = ({items,filterType}:{items:JobFilter[],filterType:filterType}) => {
+const FilterCollapse = ({items,filterType}:{items:string[],filterType:filterType}) => {
     const [opened, { toggle }] = useDisclosure()
-    const {EmploymentTypefilterArray,JobCategoryfilterArray,JobLevelfilterArray} = useAppSelector(state=>state.jobReducer.filters)
+    const {filters:{EmploymentTypefilterArray,JobCategoryfilterArray,JobLevelfilterArray}} = useAppSelector(state=>state.jobReducer)
+    const {filters:{companySizeFilterArray,industryFilterArray}} = useAppSelector(state=>state.companyReducer)
     const dispatch = useAppDispatch()
     const handleFilter = (filterType:filterType,value:string[])=>{
+        console.log(filterType);
+        
         switch(filterType){
             case "Employment Type":
                 dispatch(setEmploymentTypeFilterArray(value))
@@ -20,6 +24,14 @@ const FilterCollapse = ({items,filterType}:{items:JobFilter[],filterType:filterT
             }
             case "Job Level":{
                 dispatch(setJobLevelFilterArray(value))
+                break
+            }
+            case "Industry":{
+                dispatch(setIndustryFilterArray(value))
+                break
+            }
+            case "Company Size":{
+                dispatch(setCompanySizeFilterArray(value))
                 break
             }
         }
@@ -35,6 +47,13 @@ const FilterCollapse = ({items,filterType}:{items:JobFilter[],filterType:filterT
             }
             case "Job Level":{
                 return JobLevelfilterArray
+                break
+            }
+            case "Company Size":{
+                return companySizeFilterArray
+                break
+            }case "Industry":{
+                return industryFilterArray
                 break
             }
         }
@@ -54,8 +73,8 @@ const FilterCollapse = ({items,filterType}:{items:JobFilter[],filterType:filterT
             <Collapse in={opened}>
                 <Checkbox.Group value={setfilterValue(filterType)} onChange={(value)=>handleFilter(filterType,value)}>
                     {
-                        items.map((item,index)=>(
-                            <Checkbox key={index} c={"neutral.3"} mb={"xs"} value={item.filterValue} label={item.filterValue} />
+                        items?.map((item,index)=>(
+                            <Checkbox key={index} c={"neutral.3"} mb={"xs"} value={item} label={item} />
                         ))
                     }
                     
