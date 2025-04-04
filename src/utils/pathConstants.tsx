@@ -37,7 +37,8 @@ export const routes:routeDetails[] = [
 
 export const apiEndPoints = {
   users:"/users",
-  jobs:"/jobs"
+  jobs:"/jobs",
+  companies:"/companies"
 }
 
 

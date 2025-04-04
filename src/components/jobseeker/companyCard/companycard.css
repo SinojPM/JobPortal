@@ -1,0 +1,7 @@
+.companny-card-container{
+    box-shadow: 2px 2px var(--neutral-2),3px 3px var(--neutral-1);
+}
+.company-card-img{
+    border-radius: 50%;
+    overflow: hidden;
+}

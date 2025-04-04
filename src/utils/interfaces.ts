@@ -55,16 +55,26 @@ export interface AllallowedUsers {
 }
 
 export interface JobFilter {
-    filterType: "Employment Type" | "Job Category" | "Job Level" | "Salary Range";
+    filterType: filterType;
     filterValue: string;
 }
-export type filterType = "Employment Type" | "Job Category" | "Job Level" | "Salary Range";
+export interface JobFilters {
+    employmentType: string[];
+    jobCategory: string[];
+    jobLevel: string[];
+    salaryRange: string[];
+    industry: string[];
+    companySize: string[];
+  }
+export type filterType = "Employment Type" | "Job Category" | "Job Level" | "Salary Range" | "Industry" | "Company Size";
 
 export interface filterTypeProps {
     EmploymentType: filterType;
     JobCategory: filterType;
     JobLevel: filterType;
     SalaryRange: filterType;
+    Industry:filterType
+    CompanySize:filterType
 }
 
 export interface JobDetails {
@@ -109,5 +119,53 @@ export interface jobState {
 
 export interface searchValues {
     jobTitle: string;
+    companyName:string;
     location: string;
+    companyLocation:string;
 }
+
+export interface companyDetails {
+    companyName:     string;
+    logo:            string;
+    founded:         Date;
+    size:            string;
+    location:        string;
+    industry:        string;
+    companyProfile:  string;
+    techStack:       string[];
+    twitter:         string;
+    facebook:        string;
+    officeLocations: string;
+    linkedin:        string;
+    image1:          string;
+    image2:          string;
+    image3:          string;
+    image4:          string;
+    benefits:        Benefit[];
+    website:         string;
+    email:           string;
+    id:              string;
+}
+
+export interface Benefit {
+    benefit:     string;
+    logoTag:     string;
+    description: string;
+}
+
+export interface companyState{
+    apiResponse:{
+        isPending:boolean;
+        allCompanies:companyDetails[] | [];
+        dummyAllCompanies:companyDetails[] | [];
+    },
+    locations:string[];
+    pagination:{
+        currentPage:number;
+    },
+    filters:{
+        industryFilterArray:string [],
+        companySizeFilterArray:string[],
+   }
+}
+

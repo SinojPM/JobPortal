@@ -1,4 +1,4 @@
-import  { get ,post} from "./commonApi";
+import  { get ,post,get2} from "./commonApi";
 import { loginDetails, registerDetails } from "../../utils/interfaces";
 import { apiEndPoints } from "../../utils/pathConstants";
 
@@ -21,4 +21,8 @@ export const loginApi = async(valueFromForm:loginDetails)=>{
 
 export const getAllJobsApi = async()=>{
     return await get(`${apiEndPoints.jobs}`)
+}
+
+export const getAllCompaniesApi = async()=>{
+    return await get2(apiEndPoints.companies)
 }
